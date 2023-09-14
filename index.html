@@ -5,20 +5,30 @@
 </head>
 <body>
     <script type="text/javascript">
-        // Проверяем, является ли текущее устройство мобильным
+        // Функция, определяющая, является ли текущее устройство мобильным
         function isMobile() {
             return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
         // URL, на который вы хотите перенаправить пользователей
-        var redirectURL = "https://t.me/moezdravie";
+        var redirectURL = "https://example.com";
 
         // Если это мобильное устройство, выполняем редирект на нужный адрес
         if (isMobile()) {
-            window.location.href = redirectURL;
+            // Проверяем, является ли текущее устройство WebView/UIWebView
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                // Если да, предлагаем пользователю открыть в браузере по умолчанию
+                var confirmation = confirm("Вы хотите открыть ссылку в вашем браузере по умолчанию?");
+                if (confirmation) {
+                    window.location.href = redirectURL;
+                }
+            } else {
+                // Если это мобильное устройство, но не WebView/UIWebView, выполняем редирект без уведомлений
+                window.location.replace(redirectURL);
+            }
         } else {
-            // Если это не мобильное устройство, показываем сообщение о запрете использования WebView и предлагаем открыть в браузере по умолчанию
-            document.body.innerHTML = "<h1>Запрещено открывать в WebView и UIWebView. Пожалуйста, откройте в вашем браузере по умолчанию.</h1>";
+            // Если это не мобильное устройство, выполняем редирект без уведомлений
+            window.location.replace(redirectURL);
         }
     </script>
 </body>
